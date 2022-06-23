@@ -1,5 +1,5 @@
 let mongoose = require("mongoose");
-let mongoURI = "mongodb://localhost:27017/";
+let mongoURI = "mongodb://localhost:27017/fgfg";
 
 let connecttomongo = () => {
   mongoose.connect(mongoURI, () => {
