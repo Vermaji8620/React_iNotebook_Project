@@ -15,7 +15,7 @@ let fetchuser = require("../middleware/fetchuser");
 // creating a signature for signing into the token
 const JWT_SECRET = "Adityaisagoodboy";
 
-//Route 1---create a user using : POST '/api/auth' . Doesn't require Auth
+//Route 1---create a user using : POST '/api/auth' . Doesn't require Authentication
 router.post(
   "/createuser",
   [
@@ -52,6 +52,7 @@ router.post(
           await bcrypt.genSalt(10)
         ),
       });
+      
       let data = {
         user: {
           id: user.id,
@@ -109,7 +110,7 @@ router.post(
           id: user.id,
         },
       };
-      // signing the data (i.e the id of the user)
+      // signing the data (i.e the id of the user....id is selected since it is a unique thing of any user--)..signing takes two thing..first- the information that needs to be signed and secondly the signature that willl be used to sign it ---
       let authtoken = jwt.sign(data, JWT_SECRET);
       res.json(authtoken);
 
@@ -124,13 +125,14 @@ router.post(
 // Route 3--- get logged in user details
 
 router.post(
+  // in this first is the api, then is the fetchuser function, and then is the followed function---
   "/getuser",
   fetchuser, // now sending request and responses
   async (req, res) => {
     try {
-      userId = req.user.id;
-      const user = await User.findById(userId).select("-password");
-      res.send(user)
+      userId = req.user.id;// req.user.id is obtained from fetchuser function--
+      const user = await User.findById(userId).select("-password"); //  select everything other than password
+      res.send(user);
     } catch (error) {
       console.error(error.error);
       res.status(500).send("internal server error");
