@@ -10,11 +10,12 @@ const { body, validationResult } = require("express-validator");
 let bcrypt = require("bcryptjs");
 // for returing token to the user who has inputted his details/credentials(full-form...---  Json Web Token)
 var jwt = require("jsonwebtoken");
-
+// importing the fetchuser file in the middleware folder
+let fetchuser = require("../middleware/fetchuser");
 // creating a signature for signing into the token
 const JWT_SECRET = "Adityaisagoodboy";
 
-//create a user using : POST '/api/auth' . Doesn't require Auth
+//Route 1---create a user using : POST '/api/auth' . Doesn't require Auth
 router.post(
   "/createuser",
   [
@@ -70,7 +71,7 @@ router.post(
   }
 );
 
-// authenticating a user(creating a login)
+// Route 2---authenticating a user(creating a login)
 router.post(
   "/login",
   [
@@ -120,4 +121,20 @@ router.post(
   }
 );
 
+// Route 3--- get logged in user details
+
+router.post(
+  "/getuser",
+  fetchuser, // now sending request and responses
+  async (req, res) => {
+    try {
+      userId = req.user.id;
+      const user = await User.findById(userId).select("-password");
+      res.send(user)
+    } catch (error) {
+      console.error(error.error);
+      res.status(500).send("internal server error");
+    }
+  }
+);
 module.exports = router;
