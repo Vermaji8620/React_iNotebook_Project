@@ -1,5 +1,8 @@
-const JWT_SECRET = "Adityaisagoodboy";
+// fetchuser k andar me jo hai, sirf aur sirf token ka kaam kiya ja rha hai----token verfication mainly bol skte hai
+
 let jwt = require("jsonwebtoken");
+
+const JWT_SECRET = "Adityaisagoodboy";
 
 let fetchuser = (req, res, next) => {
   //get the user from the jwt token and add id to req object

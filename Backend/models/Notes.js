@@ -1,6 +1,14 @@
 const mongoose = require("mongoose");
+let { Schema } = mongoose;
 
-const notesSchema = new mongoose.Schema({
+const notesschema = new mongoose.Schema({
+  user: {
+    // importing the id from a different route source
+    type: mongoose.Schema.Types.ObjectId,
+    //now defining the model name given in User.js
+    ref: "user",
+  },
+
   title: {
     type: String,
     required: true,

@@ -52,7 +52,7 @@ router.post(
           await bcrypt.genSalt(10)
         ),
       });
-      
+
       let data = {
         user: {
           id: user.id,
@@ -130,7 +130,7 @@ router.post(
   fetchuser, // now sending request and responses
   async (req, res) => {
     try {
-      userId = req.user.id;// req.user.id is obtained from fetchuser function--
+      userId = req.user.id; // req.user.id is obtained from fetchuser function--
       const user = await User.findById(userId).select("-password"); //  select everything other than password
       res.send(user);
     } catch (error) {
