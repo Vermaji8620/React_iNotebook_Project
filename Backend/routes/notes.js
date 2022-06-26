@@ -57,42 +57,74 @@ router.post(
   }
 );
 
-// ROUTE 3-- update an existing note using:
+// ROUTE 3-- update an existing note using: put method
 router.put("/updatenote/:id", fetchuser, async (req, res) => {
   let { title, description, tag } = req.body;
-  // create a new note object
-  let newnote = {};
-  if (title) {
-    newnote.title = title;
-  }
+  try {
+    // create a new note object
+    let newnote = {};
+    if (title) {
+      newnote.title = title;
+    }
 
-  if (description) {
-    newnote.description = description;
-  }
-  if (tag) {
-    newnote.tag = tag;
-  }
-  // find the note to be updated (by its id )and then update it
-  // niche wale line ka matlb hai ki koi agar aisa id marne ka kosis kr rha hai, jo ki hai hi nai, to 'not found' likhke aa jayega
-  let note = await Notes.findById(req.params.id);
-  if (!note) {
-    res.status(404).send("not found");
-  }
+    if (description) {
+      newnote.description = description;
+    }
+    if (tag) {
+      newnote.tag = tag;
+    }
+    // find the note to be updated (by its id )and then update it
+    // niche wale line ka matlb hai ki koi agar aisa id marne ka kosis kr rha hai, jo ki hai hi nai, to 'not found' likhke aa jayega
+    let note = await Notes.findById(req.params.id);
+    if (!note) {
+      res.status(404).send("not found");
+    }
 
-  // yaha pe check krrhe hai ki jo insan logged in hai notes ko update krne k liye, wo kahi dusra ka id leke notes ko modify krne ka to kosis nai na krrha hai---
-  if (note.user.toString() !== req.user.id) {
-    return res.status(401).send("Not allowed");
+    // yaha pe check krrhe hai ki jo insan logged in hai notes ko update krne k liye, wo kahi dusra ka id leke notes ko modify krne ka to kosis nai na krrha hai---
+    if (note.user.toString() !== req.user.id) {
+      return res.status(401).send("Not allowed");
+    }
+
+    // ab upar ka sab condition check ho gya hai aur ye final ho gya hai ki sb thik hai aur ab update krne ka kaam shuru hoga ---
+
+    // when we perform update operation in mongoose ,it returns the previous state of the document (before it wass updated) and not the updated one. By setting 'new' to true in the third argument of the object in 'findByIdAndUpdate', we tell mongoose to return the updated state of the object instead of its default behaviour
+    note = await Notes.findByIdAndUpdate(
+      req.params.id,
+      { $set: newnote },
+      { new: true }
+    );
+    res.json(note);
+  } catch (error) {
+    console.error(error.error);
+    res.status(500).send("internal server error");
   }
+});
 
-  // ab upar ka sab condition check ho gya hai aur ye final ho gya hai ki sb thik hai aur ab update krne ka kaam shuru hoga ---
+// Route 4:  Deleting Notes---
+router.delete("/deletenote/:id", fetchuser, async (req, res) => {
+  try {
+    // find the note to be deleted (by its id )and then deleted it
+    // niche wale line ka matlb hai ki koi agar aisa id delete marne ka kosis kr rha hai, jo ki hai hi nai, to 'not found' likhke aa jayega
+    let note = await Notes.findById(req.params.id);
+    if (!note) {
+      res.status(404).send("not found");
+    }
 
-  // when we perform update operation in mongoose ,it returns the previous state of the document (before it wass updated) and not the updated one. By setting 'new' to true in the third argument of the object in 'findByIdAndUpdate', we tell mongoose to return the updated state of the object instead of its default behaviour
-  note = await Notes.findByIdAndUpdate(
-    req.params.id,
-    { $set: newnote },
-    { new: true }
-  );
-  res.json(note);
+    // yaha pe check krrhe hai ki jo insan logged in hai, wo kahi dusra ka notes na delete kr de ----
+    // that is allow the deletion only if the user owns the note
+    if (note.user.toString() !== req.user.id) {
+      return res.status(401).send("Not allowed");
+    }
+
+    // ab upar ka sab condition check ho gya hai aur ye final ho gya hai ki sb thik hai aur ab update krne ka kaam shuru hoga ---
+
+    // when we perform update operation in mongoose ,it returns the previous state of the document (before it wass updated) and not the updated one. By setting 'new' to true in the third argument of the object in 'findByIdAndUpdate', we tell mongoose to return the updated state of the object instead of its default behaviour
+    note = await Notes.findByIdAndDelete(req.params.id);
+    res.json("Success! Your note has been deleted");
+  } catch (error) {
+    console.error(error.error);
+    res.status(500).send("internal server error");
+  }
 });
 
 module.exports = router;
