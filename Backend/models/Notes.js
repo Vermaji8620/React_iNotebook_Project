@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 let { Schema } = mongoose;
-
 const notesschema = new mongoose.Schema({
   user: {
     // importing the id from a different route source
@@ -28,5 +27,4 @@ const notesschema = new mongoose.Schema({
     default: Date.now,
   },
 });
-
 module.exports = mongoose.model("notes", notesschema);
