@@ -15,6 +15,7 @@ import NoteState from "./context/notes/NoteState";
 function App() {
   return (
     <>
+      {/* for using the context we need to mention about the NoteState */}
       <NoteState>
         <Router>
           <Navbar />
