@@ -1,5 +1,4 @@
 import React from "react";
-import { useContext, useEffect } from "react";
 // importing the notecontext
 import noteContext from "../context/notes/NoteContext";
 

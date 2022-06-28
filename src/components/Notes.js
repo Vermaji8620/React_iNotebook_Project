@@ -9,7 +9,7 @@ const Notes = () => {
   const context = useContext(noteContext);
   // ye niche me jo 'notes' likha hua hai, ye NoteState se leke aaya hua hai (whaa pe jo khichdi banke export hua tha wo khichdi yaha pe import hua hai-)
   // notes ka matlb waha pe wo list hai jisme sb items dala hua hai---
-  const { notes, addnote } = context;
+  const { notes } = context;
   return (
     <>
       <Addnote />

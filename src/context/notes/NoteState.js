@@ -54,7 +54,7 @@ const NoteState = (props) => {
       __v: 0,
     },
     {
-      _id: "62b9539076f8415d2700786b7",
+      _id: "62b9535776f8415d270078687",
       user: "62b952d676f8415d27007862",
       title: "This is verma title",
       description: "this is verma description",
@@ -70,7 +70,7 @@ const NoteState = (props) => {
     // todo api call
     console.log("adding anew note");
     const note = {
-      _id: "62b9539076gngfnfnf8415d2700786b7",
+      _id: "62b9535776f8415d270078688",
       user: "62b952d676f8415d27007862",
       title: title,
       description: description,
@@ -82,7 +82,15 @@ const NoteState = (props) => {
   };
 
   // delete a note
-  const deletenote = () => {};
+  // equal to ka baad me likha hua id wo id hai jo ki mera props se pass hoke aa rha hai...
+  // equal to ka pehle wala id wo wala id hai jo upar me likha hua hai
+  // kehne ka ye matlb hai ki agar equal to k baad walla id pehle wale id k barabar nai hai to notes k andar wo rhega nai to nai rhega
+  const deletenote = (id) => {
+    let newnotes = notes.filter((note) => {
+      return note._id !== id;
+    });
+    setNotes(newnotes);
+  };
 
   //edit a note
   const editnote = () => {};
