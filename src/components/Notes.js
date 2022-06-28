@@ -11,10 +11,9 @@ const Notes = () => {
     <div className="row my-3">
       <h1>Your Notes</h1>
       {notes.map((note) => {
-        return <Notesitem note={note}/>
+        return <Notesitem note={note} key={note._id}/>
       })}
     </div>
   );
 };
-
 export default Notes;
