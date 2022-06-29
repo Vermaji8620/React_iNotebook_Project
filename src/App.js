@@ -16,7 +16,7 @@ import Alert from "./components/Alert";
 function App() {
   return (
     <>
-      {/* for using the context we need to mention about the NoteState */}
+      {/* for using the contextAPI we need to mention about the NoteState */}
       <NoteState>
         <Router>
           <Navbar />

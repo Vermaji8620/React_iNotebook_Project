@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useContext } from "react";
 import noteContext from "../context/notes/NoteContext";
 import Addnote from "./Addnote";
@@ -7,9 +7,12 @@ import Notesitem from "./Notesitem";
 const Notes = () => {
   // useContext accepts a context object (the value returned from React.createContext) and returns the current context value, as given by the nearest context provider for the given context.
   const context = useContext(noteContext);
-  // ye niche me jo 'notes' likha hua hai, ye NoteState se leke aaya hua hai (whaa pe jo khichdi banke export hua tha wo khichdi yaha pe import hua hai-)
-  // notes ka matlb waha pe wo list hai jisme sb items dala hua hai---
-  const { notes } = context;
+  // ye niche me jo 'notes' aur 'getnote' likha hua hai, ye NoteState se leke aaya hua hai (whaa pe jo khichdi banke export hua tha wo khichdi yaha pe import hua hai-)
+  const { notes, getnote } = context;
+  useEffect(() => {
+    getnote();
+  }, []);
+
   return (
     <>
       <Addnote />
