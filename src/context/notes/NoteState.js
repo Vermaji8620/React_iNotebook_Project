@@ -31,10 +31,12 @@ const NoteState = (props) => {
       headers: {
         "Content-Type": "application/json",
         "auth-token":
-          " eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjJiODFlMTlhNjg2MmQwMmYzZmNkOWY5In0sImlhdCI6MTY1NjIzMzU2NX0.7j7S29pgBqYPiv_XvklK8zG03QMAswJ9VkvCtpipBDo",
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjJiODFlMTlhNjg2MmQwMmYzZmNkOWY5In0sImlhdCI6MTY1NjIzMzU2NX0.7j7S29pgBqYPiv_XvklK8zG03QMAswJ9VkvCtpipBDo",
       },
       body: JSON.stringify({ title, description, tag }),
     });
+    const json = await response.json();
+    console.log(json);
     // logic for adding
     console.log("adding anew note");
     const note = {
@@ -74,7 +76,7 @@ const NoteState = (props) => {
       headers: {
         "Content-Type": "application/json",
         "auth-token":
-          " eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjJiODFlMTlhNjg2MmQwMmYzZmNkOWY5In0sImlhdCI6MTY1NjIzMzU2NX0.7j7S29pgBqYPiv_XvklK8zG03QMAswJ9VkvCtpipBDo",
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjJiODFlMTlhNjg2MmQwMmYzZmNkOWY5In0sImlhdCI6MTY1NjIzMzU2NX0.7j7S29pgBqYPiv_XvklK8zG03QMAswJ9VkvCtpipBDo",
       },
     });
     const json = await response.json();
@@ -106,10 +108,21 @@ const NoteState = (props) => {
 
   // equal to ka baad me likha hua id wo id hai jo ki mera props se pass hoke aa rha hai...
   // equal to ka pehle wala id wo wala id hai jo upar me likha hua hai
-  // kehne ka yeh matlb hai ki equal to k baad k id wala note barabar nai hona chhaiye kisi v id wale note ka jo ki equal to ke pehle me hai  
+  // kehne ka yeh matlb hai ki equal to k baad k id wala note barabar nai hona chhaiye kisi v id wale note ka jo ki equal to ke pehle me hai
 
   //logic to delete
-  const deletenote = (id) => {
+  const deletenote = async (id) => {
+    // api call
+    const response = await fetch(`${host}/api/notes/deletenote/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "auth-token":
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjJiODFlMTlhNjg2MmQwMmYzZmNkOWY5In0sImlhdCI6MTY1NjIzMzU2NX0.7j7S29pgBqYPiv_XvklK8zG03QMAswJ9VkvCtpipBDo",
+      },
+    });
+    const json = response.json();
+    console.log(json);
     let newnotes = notes.filter((note) => {
       return note._id !== id;
     });
@@ -145,7 +158,7 @@ const NoteState = (props) => {
         headers: {
           "Content-Type": "application/json",
           "auth-token":
-            " eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjJiODFlMTlhNjg2MmQwMmYzZmNkOWY5In0sImlhdCI6MTY1NjIzMzU2NX0.7j7S29pgBqYPiv_XvklK8zG03QMAswJ9VkvCtpipBDo",
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjJiODFlMTlhNjg2MmQwMmYzZmNkOWY5In0sImlhdCI6MTY1NjIzMzU2NX0.7j7S29pgBqYPiv_XvklK8zG03QMAswJ9VkvCtpipBDo",
         },
         body: JSON.stringify({ title, description, tag }),
       }
